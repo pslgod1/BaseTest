@@ -106,7 +106,7 @@ export default function ForgotPasswordPage() {
             if (newPassword !== confirmPassword) { setError('Пароли не совпадают'); return; }
             setLoading(true);
             try {
-            await resetPassword(resetId, newPassword);
+            await resetPassword(resetId, newPassword, confirmPassword);
             navigate('/login', { state: { passwordChanged: true } });
         } catch (e: any) {
             setError(e.response?.data?.errorMessage ?? 'Не удалось сменить пароль.');

@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage.tsx";
+import AdminPage from "./pages/AdminPage/AdminPage.tsx";
 // Остальные страницы добавляй по мере создания:
 // import ChooseTestPage from './pages/ChooseTestPage/ChooseTestPage';
 // import DashboardPage from './pages/DashboardPage/DashboardPage';
@@ -19,7 +20,7 @@ export default function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
         {/* <Route path="/chooseTest" element={<ChooseTestPage />} /> */}
         {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
-        {/* <Route path="/admin" element={<AdminPage />} /> */}
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
