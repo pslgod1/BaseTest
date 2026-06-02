@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface UserTestRepository extends JpaRepository<UserTestAttemptEntity,Long> {
+    void deleteAllByTestId(Long testId);
 
     List<UserTestAttemptEntity> findAllByUserId(Long userId);
 
@@ -16,7 +17,7 @@ public interface UserTestRepository extends JpaRepository<UserTestAttemptEntity,
     List<UserTestAttemptEntity> findAllByUserIdWithTest(@Param("userId") Long userId);
 
     // Используйте @EntityGraph правильно
-    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"com/example/basetest/user", "com/example/basetest/test"})
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"user", "test"})
     @Query("SELECT ut FROM UserTestAttemptEntity ut WHERE ut.id = :id")
     UserTestAttemptEntity findByIdWithUserAndTest(@Param("id") Long id);
 

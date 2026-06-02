@@ -63,30 +63,37 @@ public class AdminService {
         return userMapper.convertEntityToDto(userService.save(user));
     }
 
-    public TestDTO createTest(CreateTestDto testDto) {//Поменять
+    public TestDTO createTest(CreateTestDto testDto) {
         try {
-            TestEntity testEntity = testMapper.convertCreateDtoToEntity(testDto);
+            TestEntity testEntity = new TestEntity();
+            testEntity.setTitle(testDto.title());
+            testEntity.setDescription(testDto.description());
+            testEntity.setTimeLimitMinutes(testDto.timeLimitMinutes());
             testEntity.setAdmin(userService.findCurrentUser());
             testEntity.setCreatedAt(LocalDateTime.now());
 
+            // Сначала сохраняем тест без вопросов
             TestEntity savedTest = testService.save(testEntity);
 
+            // Потом сохраняем вопросы с привязкой к тесту
             Set<QuestionEntity> questionSet = questionMapper.convertCreateDtoToEntitySet(testDto.questions());
             for (QuestionEntity question : questionSet) {
                 question.setTest(savedTest);
                 questionService.save(question);
             }
 
-            return testMapper.convertEntityToDTO(testService.save(savedTest));
-        }catch (Exception e) {
+            // Возвращаем свежий тест из БД
+            return testMapper.convertEntityToDTO(testService.findByIdWithQuestion(savedTest.getId()));
+        } catch (Exception e) {
             throw new RuntimeException("Error saving test", e);
         }
     }
 
     public void deletedTest(Long testId) {
         try {
+            userTestService.deleteAllByTestId(testId);
             testService.delete(testId);
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Error deleting test", e);
         }
     }

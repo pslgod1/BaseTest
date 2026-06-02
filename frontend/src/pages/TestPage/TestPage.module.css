@@ -1,0 +1,245 @@
+/* TestPage.module.css */
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--light-gray);
+}
+
+.main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    flex: 1;
+    width: 100%;
+}
+
+.loading {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+/* верхняя панель */
+.topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.timer {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--dark-blue);
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.timerIcon {
+    font-size: 18px;
+}
+
+.fullscreenBtn {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-size: 18px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.fullscreenBtn:hover {
+    color: var(--dark-blue);
+    border-color: var(--dark-blue);
+}
+
+.progress {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* карточка вопроса */
+.questionCard {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    margin-bottom: 24px;
+}
+
+.questionText {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 28px;
+    line-height: 1.4;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: 0.15s;
+    text-align: left;
+    font-family: var(--font-body);
+}
+
+.option:hover:not(:disabled) {
+    border-color: var(--primary-blue);
+    background: var(--light-blue);
+}
+
+.optionActive {
+    border-color: var(--dark-blue);
+    background: var(--light-blue);
+    font-weight: 600;
+}
+
+.option:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+
+.optionMarker {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--light-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.optionActive .optionMarker {
+    background: var(--dark-blue);
+    color: white;
+}
+
+/* навигация */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+.navBtn {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.navBtn:hover:not(:disabled) {
+    border-color: var(--dark-blue);
+    color: var(--dark-blue);
+}
+
+.navBtn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* завершить */
+.finishSection {
+    display: flex;
+    justify-content: center;
+}
+
+.finishBtn {
+    background: var(--dark-blue);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 32px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.finishBtn:hover {
+    opacity: 0.85;
+}
+
+/* результат */
+.resultBox {
+    text-align: center;
+    padding: 80px 24px;
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.resultTitle {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+}
+
+.resultPercent {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 800;
+    color: var(--dark-blue);
+    margin-bottom: 32px;
+    letter-spacing: -2px;
+}
+
+.btnPrimary {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--dark-blue);
+    color: white;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transition: opacity 0.15s;
+    border: none;
+    cursor: pointer;
+}
+
+.btnPrimary:hover {
+    opacity: 0.85;
+}

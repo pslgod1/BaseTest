@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TestRepository extends JpaRepository<TestEntity, Long> {
 
-    @EntityGraph(attributePaths = {"questions","questions.answer"} )
+    @EntityGraph(attributePaths = {"questions", "questions.answer"})
     @Query("""
-    SELECT t FROM TestEntity t
+    SELECT DISTINCT t FROM TestEntity t
     WHERE t.id = :id
 """)
     TestEntity findByIdWithQuestions(@Param("id") Long id);

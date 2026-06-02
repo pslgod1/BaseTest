@@ -4,13 +4,16 @@ import org.example.basetest.test.api.dto.TestDTO;
 import org.example.basetest.test.api.dto.TestMapper;
 import org.example.basetest.user.api.dto.UserDTO;
 import org.example.basetest.user.api.dto.UserMapper;
+import org.example.basetest.userAnswer.api.dto.UserAnswerDTO;
 import org.example.basetest.userAnswer.api.dto.UserAnswerMapper;
 import org.example.basetest.userTestAttempt.db.UserTestAttemptEntity;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 
 @Component
@@ -29,6 +32,11 @@ public class UserTestMapper {
     public UserTestDTO convertEntityToDTO(UserTestAttemptEntity entity) {
         UserDTO userDto = userMapper.convertEntityToDto(entity.getUser());
         TestDTO testDto = testMapper.convertEntityToDTO(entity.getTest());
+
+        Set<UserAnswerDTO> answers = entity.getUserAnswers() != null
+                ? userAnswerMapper.convertDtoToEntity(entity.getUserAnswers())
+                : Collections.emptySet();
+
         return new UserTestDTO(
                 entity.getId(),
                 userDto,
@@ -36,7 +44,7 @@ public class UserTestMapper {
                 entity.getStartedAt(),
                 entity.getCompletedAt(),
                 entity.getPercentage(),
-                userAnswerMapper.convertDtoToEntity(entity.getUserAnswers())
+                answers
         );
     }
 

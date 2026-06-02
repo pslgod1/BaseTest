@@ -20,7 +20,7 @@ public class QuestionEntity {
     @Column(name = "question", length = 25000, nullable = false)
     private String question;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "question_answer",
             joinColumns = @JoinColumn(name = "question_id"))
     @Column(name = "answer", length = 25000)

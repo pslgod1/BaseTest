@@ -38,6 +38,7 @@ public class UserTestAttemptEntity {
     @Column(name = "percentage")
     private Double percentage;//Процент
 
+
     @OneToMany(mappedBy = "testAttempt", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<UserAnswerEntity> userAnswers = new HashSet<>();
 

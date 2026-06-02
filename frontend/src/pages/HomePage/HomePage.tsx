@@ -44,7 +44,7 @@ export default function HomePage() {
 
   useEffect(() => {
     getMe()
-      .then(() => navigate('/'))
+      .then(() => navigate('/login'))
       .catch(() => {/* не авторизован — остаёмся на главной */});
   }, [navigate]);
 

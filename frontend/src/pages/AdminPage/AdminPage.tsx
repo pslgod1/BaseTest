@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   getMe,
   getTests,
@@ -8,7 +8,6 @@ import {
   getAdmins,
   giveAdminRole,
   getAdminUserTests,
-  getAdminUserTest,
 } from '../../api';
 import type { UserDTO, TestDTO, UserTestDTO } from '../../types';
 import Header from '../../components/Header/Header';
@@ -466,8 +465,6 @@ function ResultsTab() {
   const [selectedTestId, setSelectedTestId] = useState<number | null>(null);
   const [attempts, setAttempts] = useState<UserTestDTO[]>([]);
   const [loadingAttempts, setLoadingAttempts] = useState(false);
-  const [selectedAttempt, setSelectedAttempt] = useState<UserTestDTO | null>(null);
-  const [loadingDetail, setLoadingDetail] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -487,18 +484,6 @@ function ResultsTab() {
       .catch(() => setError('Не удалось загрузить результаты'))
       .finally(() => setLoadingAttempts(false));
   }, [selectedTestId]);
-
-  const openDetail = async (userTestId: number) => {
-    setLoadingDetail(true);
-    try {
-      const r = await getAdminUserTest(userTestId);
-      setSelectedAttempt(r.data);
-    } catch {
-      setError('Не удалось загрузить детали');
-    } finally {
-      setLoadingDetail(false);
-    }
-  };
 
   const avg = attempts.length
     ? (attempts.reduce((s, a) => s + (a.percentage ?? 0), 0) / attempts.length)
@@ -571,13 +556,12 @@ function ResultsTab() {
                     }
                   </td>
                   <td>
-                    <button
+                    <Link
+                      to={`/admin/results/${a.id}`}
                       className={styles.btnView}
-                      onClick={() => openDetail(a.id)}
-                      disabled={loadingDetail}
                     >
-                      {loadingDetail ? '...' : 'Подробнее'}
-                    </button>
+                      Подробнее →
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -586,106 +570,11 @@ function ResultsTab() {
         )}
       </div>
 
-      {selectedAttempt && (
-        <AttemptDetailModal
-          attempt={selectedAttempt}
-          onClose={() => setSelectedAttempt(null)}
-        />
-      )}
     </>
   );
 }
 
 // ─── Attempt Detail Modal ───────────────────────────────────────
-function AttemptDetailModal({ attempt, onClose }: { attempt: UserTestDTO; onClose: () => void }) {
-  return (
-    <div className={styles.backdrop} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.modalHeader}>
-          <span className={styles.modalTitle}>Результат попытки</span>
-          <button className={styles.modalClose} onClick={onClose}><CloseIcon /></button>
-        </div>
-        <div className={styles.modalBody}>
-          <div className={styles.resultMeta}>
-            <div className={styles.resultMetaItem}>
-              <span className={styles.resultMetaLabel}>Пользователь</span>
-              <span className={styles.resultMetaValue}>{attempt.user?.name ?? '—'}</span>
-            </div>
-            <div className={styles.resultMetaItem}>
-              <span className={styles.resultMetaLabel}>Email</span>
-              <span className={styles.resultMetaValue}>{attempt.user?.email ?? '—'}</span>
-            </div>
-            <div className={styles.resultMetaItem}>
-              <span className={styles.resultMetaLabel}>Тест</span>
-              <span className={styles.resultMetaValue}>{attempt.test?.title ?? '—'}</span>
-            </div>
-            <div className={styles.resultMetaItem}>
-              <span className={styles.resultMetaLabel}>Результат</span>
-              <span className={styles.resultMetaValue} style={{ color: 'var(--primary-blue)' }}>
-                {attempt.percentage != null ? `${attempt.percentage.toFixed(0)}%` : '—'}
-              </span>
-            </div>
-            <div className={styles.resultMetaItem}>
-              <span className={styles.resultMetaLabel}>Начало</span>
-              <span className={styles.resultMetaValue}>
-                {attempt.startAt ? new Date(attempt.startAt).toLocaleString('ru-RU') : '—'}
-              </span>
-            </div>
-            <div className={styles.resultMetaItem}>
-              <span className={styles.resultMetaLabel}>Завершение</span>
-              <span className={styles.resultMetaValue}>
-                {attempt.completedAt ? new Date(attempt.completedAt).toLocaleString('ru-RU') : 'Не завершён'}
-              </span>
-            </div>
-          </div>
-
-          {attempt.answers && attempt.answers.length > 0 ? (
-            <div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 14, marginBottom: 10 }}>
-                Ответы
-              </div>
-              <div className={styles.card}>
-                <table className={styles.answersTable}>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Вопрос</th>
-                      <th>Ответ</th>
-                      <th>Результат</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {attempt.answers.map((ans, i) => (
-                      <tr key={ans.id}>
-                        <td className={styles.tdMuted}>{i + 1}</td>
-                        <td>{ans.questionDTO?.question ?? '—'}</td>
-                        <td className={styles.tdMuted}>
-                          {ans.questionDTO?.answers?.[ans.selectedAnswerIndex] ?? ans.selectedAnswerIndex}
-                        </td>
-                        <td>
-                          {ans.isCorrect
-                            ? <span className={styles.correct}>✓ Верно</span>
-                            : <span className={styles.incorrect}>✗ Неверно</span>
-                          }
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          ) : (
-            <div className={styles.empty}>Ответы не найдены.</div>
-          )}
-        </div>
-        <div className={styles.modalFooter}>
-          <button className={styles.btnOutline} onClick={onClose}>Закрыть</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ═══════════════════════════════════════════════════════════════
 // Tab: Admins
 // ═══════════════════════════════════════════════════════════════

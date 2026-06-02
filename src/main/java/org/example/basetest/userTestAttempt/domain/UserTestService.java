@@ -134,6 +134,11 @@ public class UserTestService {
     }
 
     @Transactional
+    public void deleteAllByTestId(Long testId) {
+        userTestRepository.deleteAllByTestId(testId);
+    }
+
+    @Transactional
     public void changePercentage(long userTestId, int selectedIndex, int questionIndex) {
         try {
             UserTestAttemptEntity changeEntity = findById(userTestId);
