@@ -6,12 +6,12 @@ interface Props {
   userTest: UserTestDTO;
 }
 
-const COMP_LABELS: Record<string, string> = {
-  LITERACY:       'Цифровая грамотность',
-  COMMUNICATIONS: 'Цифровые коммуникации',
-  SAFETY:         'Цифровая безопасность',
-  CONSUMPTION:    'Цифровое потребление',
-};
+// const COMP_LABELS: Record<string, string> = {
+//   LITERACY:       'Цифровая грамотность',
+//   COMMUNICATIONS: 'Цифровые коммуникации',
+//   SAFETY:         'Цифровая безопасность',
+//   CONSUMPTION:    'Цифровое потребление',
+// };
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('ru-RU', {
@@ -23,10 +23,10 @@ function getCertId(userTestId: number) {
   return `DT-${String(userTestId).padStart(6, '0')}-${new Date().getFullYear()}`;
 }
 
-function getCompetency(userTest: UserTestDTO) {
-  const type = userTest.test?.questions?.[0]?.type;
-  return type ? (COMP_LABELS[type] ?? type) : 'Цифровые компетенции';
-}
+// function getCompetency(userTest: UserTestDTO) {
+//  const type = userTest.test?.questions?.[0]?.type;
+//  return type ? (COMP_LABELS[type] ?? type) : 'Цифровые компетенции';
+//}
 
 export default function CertificateDownload({ userTest }: Props) {
   const certRef = useRef<HTMLDivElement>(null);
@@ -35,7 +35,7 @@ export default function CertificateDownload({ userTest }: Props) {
   const pct        = Math.round(userTest.percentage ?? 0);
   const name       = userTest.user?.name ?? 'Участник';
   const testTitle  = userTest.test?.title ?? 'Тест';
-  const competency = getCompetency(userTest);
+  // const competency = getCompetency(userTest);
   const dateStr    = userTest.completedAt ? formatDate(userTest.completedAt) : formatDate(new Date().toISOString());
   const certId     = getCertId(userTest.id);
 
@@ -117,10 +117,10 @@ export default function CertificateDownload({ userTest }: Props) {
               <div className={styles.certTag}>Сертификат о прохождении</div>
               <div className={styles.certTitle}>Настоящий сертификат подтверждает, что</div>
               <div className={styles.certName}>{name}</div>
-              <div className={styles.certDesc}>
-                успешно прошёл(а) тестирование по направлению{' '}
-                <strong>«{competency}»</strong> в рамках программы оценки базовых цифровых компетенций платформы <strong>BaseTest</strong>.
-              </div>
+                <div className={styles.certDesc}>
+                    успешно прошёл(а) тестирование{' '}
+                    <strong>«{testTitle}»</strong> в рамках программы оценки базовых цифровых компетенций платформы <strong>BaseTest</strong>.
+                </div>
 
               <div className={styles.certMeta}>
                 <div className={styles.certMetaItem}>

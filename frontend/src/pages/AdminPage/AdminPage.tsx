@@ -607,7 +607,7 @@ function AdminsTab() {
       setEmail('');
       load();
     } catch (e: any) {
-      setError(e?.response?.data?.errorMessage || 'Не удалось выдать права. Проверьте email.');
+      setError( 'Не удалось выдать права. Проверьте email.'); //e?.response?.data?.errorMessage ||
     } finally {
       setGranting(false);
     }

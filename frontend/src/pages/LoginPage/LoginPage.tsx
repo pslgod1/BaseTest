@@ -77,7 +77,7 @@ export default function LoginPage() {
               <input
                 type="email"
                 className={`${styles.input} ${errors.email ? styles.inputError : ''}`}
-                placeholder="your@email.com"
+                placeholder="ваш@email.com"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);

@@ -152,7 +152,7 @@ export default function RegisterPage() {
                   <input
                     type="text"
                     className={`${styles.input} ${step1Errors.name ? styles.inputError : ''}`}
-                    placeholder="Иван Иванов"
+                    placeholder="Ваше имя"
                     value={name}
                     onChange={(e) => {
                       setName(e.target.value);
@@ -168,7 +168,7 @@ export default function RegisterPage() {
                   <input
                     type="email"
                     className={`${styles.input} ${step1Errors.email ? styles.inputError : ''}`}
-                    placeholder="your@email.com"
+                    placeholder="ваш@email.com"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);

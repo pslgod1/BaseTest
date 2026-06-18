@@ -160,7 +160,7 @@ export default function ForgotPasswordPage() {
                                     <input
                                         type="email"
                                         className={`${styles.input} ${error && !email.trim() ? styles.inputError : ''}`}
-                                        placeholder="your@email.com"
+                                        placeholder="ваш@email.com"
                                         value={email}
                                         onChange={(e) => { setEmail(e.target.value); setError(''); }}
                                         autoComplete="email"
